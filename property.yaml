@@ -1,0 +1,119 @@
+openapi: 3.0.0
+info:
+  title: База Недвижимости API
+  description: API для управления объектами недвижимости
+  termsOfService: https://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    email: danil-kovalevich@mail.ru
+  license:
+    name: Лицензия Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+
+paths:
+  /property:
+    get:
+      summary: Получить список всех объектов недвижимости
+      responses:
+        '200':
+          description: Список объектов недвижимости
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    street:
+                      type: string
+                    price:
+                      type: number
+                    monthlyRent:
+                      type: integer
+
+    post:
+      summary: Добавить новый объект недвижимости
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                street:
+                  type: string
+                price:
+                  type: number
+                monthlyRent:
+                  type: integer
+      responses:
+        '201':
+          description: Объект недвижимости успешно добавлен
+        '400':
+          description: Неверный запрос
+    
+    put:
+      summary: Изменить стоимость и срок съема объекта недвижимости по улице
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                street:
+                  type: string
+                price:
+                  type: number
+                monthlyRent:
+                  type: integer
+      responses:
+        '204':
+          description: Информация об объекте недвижимости успешно обновлена
+        '404':
+          description: Объект недвижимости не найден
+        '400':
+          description: Неверный запрос
+
+  /property/{street}:
+    get:
+      summary: Получить один объект
+      parameters:
+        - name: street
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Список объектов недвижимости
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    street:
+                      type: string
+                    price:
+                      type: number
+                    monthlyRent:
+                      type: integer
+        '404':
+          description: Объекты недвижимости не найдены
+          
+    delete:
+      summary: Удалить объект недвижимости по улице
+      parameters:
+        - name: street
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Объект недвижимости успешно удален
+        '404':
+          description: Объект недвижимости не найден
+
